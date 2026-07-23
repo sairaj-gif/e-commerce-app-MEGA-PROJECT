@@ -1,73 +1,52 @@
 module "eks" {
-
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  cluster_name                   = local.name
-  cluster_endpoint_public_access = true
+  # v21 parameter names
+  name               = local.name
+  kubernetes_version = "1.33" # or your desired version
 
-  cluster_addons = {
+  endpoint_public_access  = true
+  endpoint_private_access = true
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.public_subnets
+
+  enable_cluster_creator_admin_permissions = true
+
+  addons = {
     coredns = {
       most_recent = true
     }
+
     kube-proxy = {
       most_recent = true
     }
+
     vpc-cni = {
       most_recent = true
     }
   }
 
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.public_subnets
-  control_plane_subnet_ids = module.vpc.intra_subnets
-
-  # EKS Managed Node Group(s)
-
-  eks_managed_node_group_defaults = {
-
-    instance_types = ["t2.large"]
-
-    attach_cluster_primary_security_group = true
-
-  }
-
-
   eks_managed_node_groups = {
-
     tws-demo-ng = {
+      instance_types = ["t2.large"]
+
       min_size     = 2
       max_size     = 3
       desired_size = 2
 
-      instance_types = ["t2.large"]
-      capacity_type  = "SPOT"
+      capacity_type = "SPOT"
 
-      disk_size = 35 
-      use_custom_launch_template = false  # Important to apply disk size!
+      disk_size = 35
 
       tags = {
-        Name = "tws-demo-ng"
+        Name        = "tws-demo-ng"
         Environment = "dev"
-        ExtraTag = "e-commerce-app"
+        ExtraTag    = "e-commerce-app"
       }
     }
   }
- 
+
   tags = local.tags
-
-
-}
-
-data "aws_instances" "eks_nodes" {
-  instance_tags = {
-    "eks:cluster-name" = module.eks.cluster_name
-  }
-
-  filter {
-    name   = "instance-state-name"
-    values = ["running"]
-  }
-
-  depends_on = [module.eks]
 }
