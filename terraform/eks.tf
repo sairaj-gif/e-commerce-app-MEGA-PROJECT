@@ -4,7 +4,7 @@ module "eks" {
 
   # v21 parameter names
   name               = local.name
-  kubernetes_version = "1.32" # or your desired version
+  kubernetes_version = "1.33" # or your desired version
 
   endpoint_public_access  = true
   endpoint_private_access = true
@@ -36,7 +36,7 @@ module "eks" {
       max_size     = 3
       desired_size = 2
 
-      capacity_type = "SPOT"
+      capacity_type = "ON_DEMAND"
 
       disk_size = 35
 
