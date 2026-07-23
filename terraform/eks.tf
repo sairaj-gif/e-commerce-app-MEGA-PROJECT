@@ -4,7 +4,7 @@ module "eks" {
 
   # v21 parameter names
   name               = local.name
-  kubernetes_version = "1.33" # or your desired version
+  kubernetes_version = "1.32" # or your desired version
 
   endpoint_public_access  = true
   endpoint_private_access = true
@@ -30,7 +30,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     tws-demo-ng = {
-      instance_types = ["t2.large"]
+      instance_types = ["t3.large"]
 
       min_size     = 2
       max_size     = 3
