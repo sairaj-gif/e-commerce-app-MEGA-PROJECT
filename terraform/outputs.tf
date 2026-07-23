@@ -9,7 +9,7 @@ output "vpc_id" {
 }
 
 
-output "eks_cluster_name" {
+output "eks_name" {
   description = "EKS cluster name"
   value       = module.eks.cluster_name
 }
@@ -25,7 +25,3 @@ output "public_ip" {
   value       = aws_instance.testinstance.public_ip
 }
 
-output "eks_node_group_public_ips" {
-  description = "Public IPs of the EKS node group instances"
-  value       = data.aws_instances.eks_nodes.public_ips
-}
