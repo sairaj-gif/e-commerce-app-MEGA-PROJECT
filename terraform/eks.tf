@@ -71,8 +71,5 @@ data "aws_instances" "eks_nodes" {
 
   depends_on = [module.eks]
 }
-    }
-  }
-
-  tags = local.tags
-}
+    
+ 
