@@ -5,8 +5,8 @@ pipeline {
     
     environment {
         // Update the main app image name to match the deployment file
-        DOCKER_IMAGE_NAME = 'trainwithshubham/easyshop-app'
-        DOCKER_MIGRATION_IMAGE_NAME = 'trainwithshubham/easyshop-migration'
+        DOCKER_IMAGE_NAME = 'sairajlondhe/easyshop-app'
+        DOCKER_MIGRATION_IMAGE_NAME = 'sairajlondhe/easyshop-migration'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = credentials('github-credentials')
         GIT_BRANCH = "master"
@@ -24,7 +24,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    clone("https://github.com/LondheShubham153/tws-e-commerce-app.git","master")
+                    clone("https://github.com/sairaj-gif/e-commerce-app-MEGA-PROJECT.git","master")
                 }
             }
         }
